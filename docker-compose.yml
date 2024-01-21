@@ -1,0 +1,25 @@
+version: "3.9"
+
+volumes:
+  postgres-storage:
+
+services:
+
+  pg-database:
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=kike
+      - POSTGRES_PASSWORD=17173306
+      - POSTGRES_DB=ny_taxi
+    volumes:
+      - "postgres-storage:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+
+  pg-admin:
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=17173306
+    ports:
+      - "8080:80"
