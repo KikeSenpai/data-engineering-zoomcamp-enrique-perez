@@ -2,24 +2,42 @@ version: "3.9"
 
 volumes:
   postgres-storage:
+  pgadmin-storage:
 
 services:
-
   pg-database:
     image: postgres:15
+    container_name: pg-database
     environment:
       - POSTGRES_USER=kike
       - POSTGRES_PASSWORD=17173306
       - POSTGRES_DB=ny_taxi
     volumes:
-      - "postgres-storage:/var/lib/postgresql/data"
+      - postgres-storage:/var/lib/postgresql/data
     ports:
       - "5432:5432"
 
   pg-admin:
     image: dpage/pgadmin4
+    container_name: pg-admin
     environment:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=17173306
     ports:
       - "8080:80"
+    volumes:
+      - pgadmin-storage:/var/lib/storage
+
+  data-ingestion:
+    build: .
+    container_name: ingestion-green
+    depends_on:
+      - pg-database
+    command: >
+      --user=kike
+      --password=17173306
+      --host=pg-database
+      --port=5432
+      --db=ny_taxi
+      --table_name=green_taxi_trips
+      --url=https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-09.csv.gz

@@ -31,6 +31,7 @@ def clean_data(df: DataFrame) -> DataFrame:
     """
     df.lpep_pickup_datetime = pd.to_datetime(df.lpep_pickup_datetime)
     df.lpep_dropoff_datetime = pd.to_datetime(df.lpep_dropoff_datetime)
+    return df
 
 
 def write_data(df: DataFrame, con: Engine, table_name: str) -> None:
