@@ -33,11 +33,13 @@ services:
     container_name: ingestion-green
     depends_on:
       - pg-database
+    env_file:
+      - .env
     command: >
-      --user=kike
-      --password=17173306
-      --host=pg-database
-      --port=5432
-      --db=ny_taxi
+      --user=${USER}
+      --password=${PASSWORD}
+      --host=${HOST}
+      --port=${PORT}
+      --db=${DB}
       --table_name=green_taxi_trips
       --url=https://github.com/DataTalksClub/nyc-tlc-data/releases/download/green/green_tripdata_2019-09.csv.gz
