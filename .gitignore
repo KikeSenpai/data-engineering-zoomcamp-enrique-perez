@@ -163,3 +163,6 @@ terraform/keys/
 .terraform*
 terraform.*
 terraform/*.json
+
+.dlt/
+dlt_*.*
